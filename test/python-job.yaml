@@ -1,0 +1,19 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: python-job
+spec:
+  activeDeadlineSeconds: 600
+  ttlSecondsAfterFinished: 60
+  template:
+    spec:
+      terminationGracePeriodSeconds: 60
+      containers:
+        - name: python
+          image: python
+          command: ["python", "-c", "import time; time.sleep(5); print('DONE')"]
+          imagePullPolicy: IfNotPresent
+      imagePullSecrets:
+        - name: "docker-hub"
+      restartPolicy: Never
+  backoffLimit: 0
